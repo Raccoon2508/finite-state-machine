@@ -7,7 +7,8 @@ class FSM {
       this.curState="normal";
       this.prevState=null;
       this.nextState=null;
-      this.config=config;
+      this.config=config.initial;
+      this.states=config.states;
       }
 
     /**
@@ -24,11 +25,11 @@ class FSM {
      * @param state
      */
     changeState(state) {
-      let states=Object.keys(this.config);
-      
+      let states=Object.keys(this.states);
+     
       if(states.indexOf(state)!=-1){
         this.prevState=this.curState;
-        this.curState=states[state];
+        this.curState=states[states.indexOf(state)];
       }
       
       
@@ -42,7 +43,7 @@ class FSM {
      * @param event
      */
     trigger(event) {
-      let states=Object.keys(this.config)
+      let states=Object.keys(this.config.states)
       let triggers=Object.keys(states);
       
       if(triggers.indexOf(event)!=-1){
