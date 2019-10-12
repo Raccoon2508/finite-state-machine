@@ -33,7 +33,7 @@ class FSM {
         this.curState=states[states.indexOf(state)];
       }
       
-      console.log(this.curState);
+     
       return this.curState;
       
       
@@ -55,7 +55,7 @@ class FSM {
         return this.curState;          
         }
         
-      return false;  
+     
       }
 
     /**
@@ -73,7 +73,19 @@ class FSM {
      * @param event
      * @returns {Array}
      */
-    getStates(event) {}
+    getStates(event) {
+      let result=Object.keys(this.states);
+      
+      
+     if(!event){
+      return result;
+      }else{
+     return result.filter(state => this.states[state].transitions[event]);
+      }
+      
+      
+      
+      }
 
     /**
      * Goes back to previous state.
@@ -84,10 +96,9 @@ class FSM {
       if(this.prevState){
       this.nextState=this.curState;
       this.curState=this.prevState;
-      return  this.curState;
       }else{
-      return false;
-      }
+        return false;
+        }
       }
 
     /**
@@ -99,19 +110,19 @@ class FSM {
       
       if(this.nextState){
       this.prevState=this.curState;
-      this.curState=this.nextState;
-      return  this.curState;    
       }else{
-      return false;
+      return false;  
       }
-      }
+    }
 
     /**
      * Clears transition history
      */
-    clearHistory() {}
+    clearHistory() {
+      this.prevState=null;
+      this.nextState=null;
+      }
 }
-
 module.exports = FSM;
 
 /** @Created by Uladzimir Halushka **/
