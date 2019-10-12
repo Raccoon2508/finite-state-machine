@@ -9,6 +9,7 @@ class FSM {
       this.nextState=null;
       this.config=config.initial;
       this.states=config.states;
+      
       }
 
     /**
@@ -32,7 +33,7 @@ class FSM {
         this.curState=states[states.indexOf(state)];
       }
       
-      
+      console.log(this.curState);
       return this.curState;
       
       
@@ -43,15 +44,18 @@ class FSM {
      * @param event
      */
     trigger(event) {
-      let states=Object.keys(this.config.states)
-      let triggers=Object.keys(states);
+      let triggers=Object.keys(this.states[this.curState].transitions);
+      
+      console.log(triggers);
+      console.log(triggers.indexOf(event));
       
       if(triggers.indexOf(event)!=-1){
         this.prevState=this.curState;
-        this.curState=triggers[triggers.indexOf(event)];
-        
-          
+        this.curState=this.states[this.curState].transitions[event];
+        return this.curState;          
         }
+        
+      return false;  
       }
 
     /**
@@ -90,6 +94,7 @@ class FSM {
      */
     clearHistory() {}
 }
+
 
 module.exports = FSM;
 
