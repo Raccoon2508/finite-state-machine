@@ -80,21 +80,37 @@ class FSM {
      * Returns false if undo is not available.
      * @returns {Boolean}
      */
-    undo() {}
+    undo() {
+      if(this.prevState){
+      this.nextState=this.curState;
+      this.curState=this.prevState;
+      return  this.curState;
+      }else{
+      return false;
+      }
+      }
 
     /**
      * Goes redo to state.
      * Returns false if redo is not available.
      * @returns {Boolean}
      */
-    redo() {}
+    redo() {
+      
+      if(this.nextState){
+      this.prevState=this.curState;
+      this.curState=this.nextState;
+      return  this.curState;    
+      }else{
+      return false;
+      }
+      }
 
     /**
      * Clears transition history
      */
     clearHistory() {}
 }
-
 
 module.exports = FSM;
 
