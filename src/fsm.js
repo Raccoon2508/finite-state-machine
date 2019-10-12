@@ -31,10 +31,14 @@ class FSM {
       if(states.indexOf(state)!=-1){
         this.prevState=this.curState;
         this.curState=states[states.indexOf(state)];
+        return this.curState;
+      }else{
+        throw new Error("state isn't exist");
+
+
       }
       
-     
-      return this.curState;
+      
       
       
       }
@@ -46,13 +50,15 @@ class FSM {
     trigger(event) {
       let triggers=Object.keys(this.states[this.curState].transitions);
       
-      console.log(triggers);
-      console.log(triggers.indexOf(event));
+      
       
       if(triggers.indexOf(event)!=-1){
         this.prevState=this.curState;
         this.curState=this.states[this.curState].transitions[event];
         return this.curState;          
+        }else{
+          throw new Error("event in current state isn't exist");
+
         }
         
      
@@ -93,12 +99,14 @@ class FSM {
      * @returns {Boolean}
      */
     undo() {
-      if(this.prevState){
+      if(this.prevState!==null){
       this.nextState=this.curState;
       this.curState=this.prevState;
-      }else{
+      this.prevState=null;
+      return true;
+      }
         return false;
-        }
+       
       }
 
     /**
@@ -108,8 +116,11 @@ class FSM {
      */
     redo() {
       
-      if(this.nextState){
+      if(this.nextState!==null){
       this.prevState=this.curState;
+      this.curState=this.nextState;
+      this.nextState=null;
+      return true;
       }else{
       return false;  
       }
